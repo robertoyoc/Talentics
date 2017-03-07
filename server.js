@@ -1,14 +1,28 @@
-var express = require('express');
+'use strict';
 
+var express = require('express');
 var app = express();
 
+// Load local if not in production
+if (process.env.NODE_ENV !== 'production')
+	try {
+		require('./local');
+	}
+	catch (error) {
+		throw "local.js file required for development mode";
+	}
 
+// Config mail server
+i
 
+app.use('/public', express.static(process.cwd() + '/public'));
 
-app.get('/', (req,res) => {
-	res.sendFile(__dirname + "/index.html");
+app.get('/', function (req, res) {
+	res.sendFile(process.cwd() + '/index.html');
 });
 
-app.listen(8000, ()=>{
-	console.log('server is running on tu gfa');
+var port = process.env.PORT || 8000;
+
+app.listen(port, function () {
+	console.log("Server running on port: " + port);
 });
